@@ -11,13 +11,19 @@ async function handleGet(expRequest, expResponse) {
 
   try {
     const twitterResponse = await promiseFactory.getTwitterPromise(keyword);
-    const tweets = twitterResponse.data.data.map((data) => new Tweet(data));
+    const twitterTweets = twitterResponse.data.data.map((data) => new Tweet(data));
     // const pythonResponse = {data: ''};
     const pythonResponse = await promiseFactory.getPythonPromise({
-      tweets: tweets,
+      tweets: twitterTweets,
     });
+    const pythonTweets = pythonResponse.data;
 
-    expResponse.send({ ...pythonResponse.data, tweets: tweets });
+    const join = twitterTweets.map((tweet) => ({
+      ...tweet,
+      score: pythonTweets.find((pTweet) => pTweet.id === tweet.id).score,
+    }));
+
+    expResponse.send({ tweets: join });
   } catch (error) {
     console.error(error);
   }
