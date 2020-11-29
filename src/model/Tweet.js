@@ -12,11 +12,10 @@ class Tweet {
   }
 
   print() {
-    console.log(`
-          Id: ${this.id}
-          Created: ${this.createdAt}
-          Author ID: ${this.authorId}
-          Text: ${this.text}`);
+    console.log(`Id: ${this.id}
+                 Created: ${this.createdAt}
+                 Author ID: ${this.authorId}
+                 Text: ${this.text}`);
   }
 }
 
